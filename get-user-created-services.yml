@@ -1,0 +1,20 @@
+---
+- name: Get user-created services
+  hosts: all
+  connection: local
+
+  tasks:
+  - name: Get user created services
+    uri:
+      url: https://10.200.12.52/api/v1/infra/services?default_service=false
+      user: "{{ username }}"
+      password: "{{ password}}"
+      method: GET
+      force_basic_auth: yes
+      validate_certs: false
+      status_code: 200
+    register: response
+
+  - name: print services
+    debug:
+      msg: "{{ response.json.results }}"

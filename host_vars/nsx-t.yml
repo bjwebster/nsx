@@ -1,0 +1,24 @@
+services:
+- description: '"Alternate ports for HTTPS"'
+  display_name: '"Brian-Alt-HTTPS"'
+  service_entries:
+  - resource_type: '"L4PortSetServiceEntry"'
+    display_name: '"port7443"'
+    destination_ports:
+    - '"7443"'
+    source_ports:
+    l4_protocol: '"TCP"'
+  - resource_type: '"L4PortSetServiceEntry"'
+    display_name: '"port8443"'
+    destination_ports:
+    - '"8443"'
+    source_ports:
+    l4_protocol: '"TCP"'
+  - resource_type: '"L4PortSetServiceEntry"'
+    display_name: '"port4443"'
+    destination_ports:
+    - '"4443"'
+    source_ports:
+    l4_protocol: '"TCP"'
+  
+

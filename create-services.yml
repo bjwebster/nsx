@@ -1,0 +1,26 @@
+---
+- name: Create Services
+  hosts: nsx-t
+  connection: local
+  gather_facts: false
+  
+  tasks:
+  - name: Create services file
+    set_fact:
+      services_list: "{{ lookup('template', 'create_services.j2')}}"
+
+  - name: Send to NSX
+    uri:
+      url: https://10.200.12.52/policy/api/v1/infra/services/Brian-Alt-HTTPS
+      user: "{{ username }}"
+      password: "{{ password}}"
+      method: PUT
+      body: "{{services_list}}"
+      body_format: json
+      force_basic_auth: yes
+      validate_certs: false
+      status_code: 200
+    register: response
+  # - name: Print services
+  #   debug:
+  #     msg: "{{services_list}}"
