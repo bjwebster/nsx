@@ -11,16 +11,16 @@
 
   - name: Send to NSX
     uri:
-      url: https://10.200.12.52/policy/api/v1/infra/services/Brian-Alt-HTTPS
+      url: "https://10.200.12.52/policy/api/v1/infra/services/{{item.display_name}}"
       user: "{{ username }}"
       password: "{{ password}}"
       method: PUT
-      body: "{{services_list}}"
+      body: "{{item}}"
       body_format: json
       force_basic_auth: yes
       validate_certs: false
       status_code: 200
-    register: response
-  # - name: Print services
-  #   debug:
-  #     msg: "{{services_list}}"
+    loop:
+      "{{services_list}}"
+    loop_control:
+      label: "{{ item.display_name }}"
