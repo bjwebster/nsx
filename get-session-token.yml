@@ -2,9 +2,10 @@
 - name: Get Session XSRF Token
   hosts: all
   connection: local
+  gather_facts: false
 
   tasks:
-  - name: Get auth token for NSX.
+  - name: Get auth token from NSX.
     uri:
       url: https://10.200.12.52/api/session/create
       method: POST

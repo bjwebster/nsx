@@ -2,9 +2,10 @@
 - name: Get groups
   hosts: nsx-t
   connection: local
+  gather_facts: false
   
   tasks:
-  - name: Get groups
+  - name: Get groups 
     uri:
       url: https://10.200.12.52/api/v1/infra/domains/default/groups
       user: "{{ username }}"

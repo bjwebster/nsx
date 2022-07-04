@@ -2,9 +2,10 @@
 - name: Get user-created services
   hosts: all
   connection: local
+  gather_facts: false
 
   tasks:
-  - name: Get user created services
+  - name: Get user-created services from NSX
     uri:
       url: https://10.200.12.52/api/v1/infra/services?default_service=false
       user: "{{ username }}"
@@ -13,8 +14,12 @@
       force_basic_auth: yes
       validate_certs: false
       status_code: 200
-    register: response
+    register: user_created_services
 
-  - name: print services
-    debug:
-      msg: "{{ response.json.results }}"
+  - name: create list of user-created services
+    set_fact:
+      raw_services_list: "{{user_created_services.json.results}}"
+   
+  - name: Create service IDs from raw_services_list
+    set_fact:
+      service_list: "{{ lookup('template', 'create_services_ids.j2').results }}"

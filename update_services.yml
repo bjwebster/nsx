@@ -1,11 +1,11 @@
 ---
-- name: Create Services
+- name: Update Services
   hosts: nsx-t
   connection: local
   gather_facts: false
   
   tasks:
-  - name: Create services listed in host_vars file
+  - name: Update services listed in host_vars file
     set_fact:
       services_list: "{{ lookup('template', 'create_services.j2')}}"
 
@@ -14,7 +14,7 @@
       url: "https://10.200.12.52/policy/api/v1/infra/services/{{item.display_name}}"
       user: "{{ username }}"
       password: "{{ password}}"
-      method: PUT
+      method: PATCH
       body: "{{item}}"
       body_format: json
       force_basic_auth: yes

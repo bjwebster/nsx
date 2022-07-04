@@ -1,5 +1,6 @@
-{
+[
 {% for service in services %}
+{
   "description": {{service.description}},
   "display_name": {{service.display_name}},
   "service_entries": [
@@ -16,5 +17,6 @@
         },
     {%endfor%} 
   ]
+},
 {%endfor%}
-}
+]

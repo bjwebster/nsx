@@ -1,0 +1,8 @@
+
+{%- set results = [] %}
+{%- for service in raw_services_list -%}
+{%- set _ = results.append(service.id) -%}
+{% endfor %}
+{
+  'results': {{ results }}
+}
