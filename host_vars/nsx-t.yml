@@ -3,9 +3,9 @@ services:
   display_name: '"Brian-Alt-HTTPS"'
   service_entries:
   - resource_type: '"L4PortSetServiceEntry"'
-    display_name: '"port7443"'
+    display_name: '"port7443-5"'
     destination_ports:
-    - '"7443"'
+    - '"7773-7775",'
     source_ports:
     l4_protocol: '"TCP"'
   - resource_type: '"L4PortSetServiceEntry"'
@@ -20,5 +20,24 @@ services:
     - '"4443"'
     source_ports:
     l4_protocol: '"TCP"'
-  
+- description: '"Alternate ports for HTTP"'
+  display_name: '"Brian-Alt-HTTP"'
+  service_entries:
+  - resource_type: '"L4PortSetServiceEntry"'
+    display_name: '"port8080_8081"'
+    destination_ports:
+    - '"8080",'
+    - '"8081",'
+    source_ports:
+    l4_protocol: '"TCP"' 
+- description: '"Randon Ports for testing"'
+  display_name: '"Brian-Random"'
+  service_entries:
+  - resource_type: '"L4PortSetServiceEntry"'
+    display_name: '"randon-porst"'
+    destination_ports:
+    - '"9099",'
+    - '"6066",'
+    source_ports:
+    l4_protocol: '"UDP"' 
 
