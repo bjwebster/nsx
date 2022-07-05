@@ -1,0 +1,14 @@
+{% for group in groups %}
+{
+      "expression":
+    {
+      "member_type": {{group.member_type}},
+      "value": {{group.value}},
+      "key": {{group.key}},
+      "operator": {{group.operator}},
+      "resource_type": {{group.resource_type}},
+    }
+  "description": {{group.description}},
+  "display_name": {{group.display_name}}
+}
+{% endfor %}
