@@ -1,0 +1,30 @@
+---
+- name: Create Groups
+  hosts: nsx-t
+  connection: local
+  gather_facts: false
+  
+  tasks:
+  - name: Create groups defined in input file
+    set_fact:
+      groups_list: "{{ lookup('template', 'create_groups.j2')}}"
+
+  - name: Send list to NSX
+    uri:
+      url: "https://10.200.12.52/policy/api/v1/infra/domains/default/groups/{{item.display_name}}"
+      user: "{{ username }}"
+      password: "{{ password}}"
+      method: PUT
+      body: "{{item}}"
+      body_format: json
+      force_basic_auth: yes
+      validate_certs: false
+      status_code: 200
+    loop:
+      "{{groups_list}}"
+    loop_control:
+      label: "{{ item.display_name }}"
+
+  - name: Print groups
+    debug:
+      msg: "{{groups_list}}"

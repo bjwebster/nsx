@@ -1,0 +1,28 @@
+---
+- name: Get Session XSRF Token
+  hosts: all
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Get auth token from NSX.
+    uri:
+      url: https://10.200.12.52/api/session/create
+      method: POST
+      body_format: form-urlencoded
+      body:
+        j_username: "{{ username }}" 
+        j_password: "{{ password }}"
+      status_code: 200
+      validate_certs: false
+    register: auth_response
+    delegate_to: localhost
+
+  - name: Get token from response
+    set_fact:
+      session_token: "{{ auth_response['x_xsrf_token'] }}"
+    delegate_to: localhost
+
+  - name: print token
+    debug:
+      msg: "{{session_token}}"

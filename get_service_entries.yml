@@ -1,0 +1,22 @@
+---
+- name: Get Services Entries
+  hosts: nsx-t
+  connection: local
+  gather_facts: false
+  
+  tasks:
+
+  - name: Get user-created services from NSX
+    uri:
+      url: https://10.200.12.52/policy/api/v1/infra/services/Brian-Random/service-entries
+      user: "{{ username }}"
+      password: "{{ password}}"
+      method: GET
+      force_basic_auth: yes
+      validate_certs: false
+      status_code: 200
+    register: response
+    
+  - name: display services
+    debug:
+      msg: "{{response}}"

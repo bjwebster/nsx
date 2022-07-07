@@ -1,0 +1,23 @@
+---
+- name: Get objects with specific tags
+  hosts: nsx-t
+  connection: local
+  gather_facts: false
+  vars:
+    nsx_scope: web
+    nsx_tag: application
+  tasks:
+  - name: Get objects with specified tags
+    uri:
+      url: https://10.200.12.52/api/v1/infra/tags/effective-resources?scope={{nsx_scope}}&tag={{nsx_tag}}
+      user: "{{ username }}"
+      password: "{{ password}}"
+      method: GET
+      force_basic_auth: yes
+      validate_certs: false
+      status_code: 200
+    register: response
+
+  - name: print tags
+    debug:
+      msg: "{{ response.json.results }}"

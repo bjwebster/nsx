@@ -1,5 +1,5 @@
 ---
-- name: Delete All User-crteated Services
+- name: Delete and Replace All User-Created Services
   hosts: nsx-t
   connection: local
   gather_facts: false
@@ -39,3 +39,23 @@
       "{{service_list}}"
     loop_control:
       label: "{{ item }}"
+
+  - name: Create services listed in host_vars file
+    set_fact:
+      services_list: "{{ lookup('template', 'create_services.j2')}}"
+
+  - name: Send list to NSX
+    uri:
+      url: "https://10.200.12.52/policy/api/v1/infra/services/{{item.display_name}}"
+      user: "{{ username }}"
+      password: "{{ password}}"
+      method: PUT
+      body: "{{item}}"
+      body_format: json
+      force_basic_auth: yes
+      validate_certs: false
+      status_code: 200
+    loop:
+      "{{services_list}}"
+    loop_control:
+      label: "{{ item.display_name }}"

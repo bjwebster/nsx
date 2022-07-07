@@ -1,0 +1,31 @@
+---
+- name: Get VMs
+  hosts: nsx-t
+  connection: local
+  gather_facts: false
+  
+  tasks:
+  - name: Get VMs from NSX
+    uri:
+      url: https://10.200.12.52/api/v1/fabric/virtual-machines
+      user: "{{ username }}"
+      password: "{{ password}}"
+      method: GET
+      force_basic_auth: yes
+      validate_certs: false
+      status_code: 200
+    register: vm_response
+
+
+  - name:
+    set_fact:
+      vm_list: "{{vm_response.json.results}}"
+
+  - name: print tags
+    debug:
+      msg: "{{ vm_response.json.results }}"
+
+  - name: Create a file listing VMs with their IDs
+    template:
+      src: list_vm-ids.j2
+      dest: vm_list.txt
