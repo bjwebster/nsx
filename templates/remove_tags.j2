@@ -1,5 +1,6 @@
-{
+[
 {% for eachtag in nsxtags -%}
+{
   "tag": {
     "scope": {{ eachtag.nsxtag.nxsscope }},
     "tag": {{ eachtag.nsxtag.nsxtag }}
@@ -16,5 +17,6 @@
     ]
     }
  ]
+},
 {% endfor -%}
-}
+]

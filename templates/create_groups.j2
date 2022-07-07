@@ -1,14 +1,17 @@
-{% for group in groups %}
+[
+{%- for group in NSXGroups %}
 {
-      "expression":
+    "expression": [
     {
       "member_type": {{group.member_type}},
       "value": {{group.value}},
       "key": {{group.key}},
       "operator": {{group.operator}},
-      "resource_type": {{group.resource_type}},
+      "resource_type": {{group.resource_type}}
     }
+    ],
   "description": {{group.description}},
   "display_name": {{group.display_name}}
-}
-{% endfor %}
+},
+{%- endfor %}
+]

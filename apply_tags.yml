@@ -9,22 +9,22 @@
     set_fact:
       tags_list: "{{ lookup('template', 'apply_tags.j2')}}"
 
-  - name: Send list to NSX
-    uri:
-      url: "https://10.200.12.52/policy/api/v1/infra/tags/tag-operations/{{100|random}}"
-      user: "{{ username }}"
-      password: "{{ password}}"
-      method: PUT
-      body: "{{item}}"
-      body_format: json
-      force_basic_auth: yes
-      validate_certs: false
-      status_code: 200
-    loop:
-      "{{tags_list}}"
-    loop_control:
-      label: "{{ item.tag }}"
+  # - name: Send list to NSX
+  #   uri:
+  #     url: "https://10.200.12.52/policy/api/v1/infra/tags/tag-operations/{{100|random}}"
+  #     user: "{{ username }}"
+  #     password: "{{ password}}"
+  #     method: PUT
+  #     body: "{{item}}"
+  #     body_format: json
+  #     force_basic_auth: yes
+  #     validate_certs: false
+  #     status_code: 200
+  #   loop:
+  #     "{{tags_list}}"
+  #   loop_control:
+  #     label: "{{ item.tag }}"
 
-  # - name: Print tags list
-  #   debug:
-  #     msg: "{{ tags_list}}"
+  - name: Print tags list
+    debug:
+      msg: "{{ tags_list}}"
