@@ -1,0 +1,5 @@
+{
+{% for nsxservice in services_list %}
+"{{nsxservice.display_name}}" : "{{nsxservice._revision}}",
+{% endfor %}
+}

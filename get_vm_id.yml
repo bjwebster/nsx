@@ -27,5 +27,5 @@
 
   - name: Create a file listing VMs with their IDs
     template:
-      src: list_vm-ids.j2
+      src: list_vm_ids.j2
       dest: vm_list.txt

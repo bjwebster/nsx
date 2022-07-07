@@ -1,0 +1,29 @@
+---
+- name: Get service revision values
+  hosts: nsx-t
+  connection: local
+  gather_facts: false
+  
+  tasks:
+  - name: Get services 
+    uri:
+      url: https://10.200.12.52/policy/api/v1/infra/services?default_service=false
+      user: "{{ username }}"
+      password: "{{ password}}"
+      method: GET
+      force_basic_auth: yes
+      validate_certs: false
+      status_code: 200
+    register: response
+
+  - name: Parse out services
+    set_fact:
+      services_list: "{{ response.json.results }}"
+
+  - name:
+    set_fact:
+      service_rev_dict: "{{ lookup('template', 'service_revision_dict.j2')}}"
+
+  - name: print services
+    debug:
+      msg: "{{ service_rev_dict }}"

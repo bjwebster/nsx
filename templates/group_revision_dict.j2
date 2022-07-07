@@ -1,0 +1,5 @@
+{
+{% for nsxgroup in group_list %}
+"{{nsxgroup.display_name}}" : "{{nsxgroup._revision}}",
+{% endfor %}
+}

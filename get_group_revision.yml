@@ -1,5 +1,5 @@
 ---
-- name: Get groups
+- name: Get group revision values
   hosts: nsx-t
   connection: local
   gather_facts: false
@@ -16,6 +16,14 @@
       status_code: 200
     register: response
 
+  - name: Parse out groups
+    set_fact:
+      group_list: "{{ response.json.results }}"
+
+  - name:
+    set_fact:
+      group_rev_dict: "{{ lookup('template', 'group_revision_dict.j2')}}"
+
   - name: print groups
     debug:
-      msg: "{{ response.json.results }}"
+      msg: "{{ group_rev_dict }}"
