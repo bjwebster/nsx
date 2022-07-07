@@ -1,0 +1,20 @@
+{
+{% for eachtag in nsxtags -%}
+  "tag": {
+    "scope": {{ eachtag.nsxtag.nxsscope }},
+    "tag": {{ eachtag.nsxtag.nsxtag }}
+   },
+"remove_from": [
+    {
+    "resource_type": {{eachtag.nsxtag.remove_from.resource_type}},
+    "resource_ids": [
+      {% if eachtag.nsxtag.remove_from.resource_ids -%}
+      {% for eachvm in eachtag.nsxtag.remove_from.resource_ids -%}
+       "{{ eachvm }}",
+      {% endfor -%}
+      {% endif -%}
+    ]
+    }
+ ]
+{% endfor -%}
+}

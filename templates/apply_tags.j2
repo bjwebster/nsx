@@ -1,0 +1,22 @@
+[
+{% for eachtag in nsxtags -%}
+{
+  "tag": {
+    "scope": {{ eachtag.nsxtag.nxsscope }},
+    "tag": {{eachtag.nsxtag.nsxtag}}
+   },
+"apply_to": [
+    {
+    "resource_type": {{eachtag.nsxtag.apply_to.resource_type}},
+    "resource_ids": [
+      {% if eachtag.nsxtag.apply_to.resource_ids -%}
+      {% for eachvm in eachtag.nsxtag.apply_to.resource_ids -%}
+       "{{ eachvm }}",
+      {% endfor -%}
+      {% endif -%}
+    ]
+    }
+ ]
+},
+{% endfor -%}
+]
