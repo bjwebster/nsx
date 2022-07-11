@@ -1,11 +1,11 @@
 ---
-- name: Remove scopes and tags
+- name: Remove scopes/tags
   hosts: nsx-t
   connection: local
   gather_facts: false
   
   tasks:
-  - name: Create list of scopes and tags to remove
+  - name: Create list of scopes/tags to remove
     set_fact:
       tags_list: "{{ lookup('template', 'remove_tags.j2')}}"
 
@@ -24,7 +24,3 @@
       "{{tags_list}}"
     loop_control:
       label: "{{ item.tag }}"
-
-  # - name: Print tags list
-  #   debug:
-  #     msg: "{{ tags_list}}"

@@ -4,8 +4,8 @@
   connection: local
   gather_facts: false
   vars:
-    nsx_scope: web
-    nsx_tag: application
+    nsx_scope: Linux
+    nsx_tag: OS
   tasks:
   - name: Get objects with specified tags
     uri:
@@ -18,6 +18,10 @@
       status_code: 200
     register: response
 
+  - name:
+    set_fact:
+      tag_usage: "{{ response.json.results }}"
+
   - name: print tags
     debug:
-      msg: "{{ response.json.results }}"
+      msg: "{{ tag_usage }}"

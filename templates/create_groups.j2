@@ -1,17 +1,43 @@
 [
-{%- for group in NSXGroups %}
+{% for group in NSXGroups -%}
 {
-    "expression": [
-    {
-      "member_type": {{group.member_type}},
-      "value": {{group.value}},
-      "key": {{group.key}},
-      "operator": {{group.operator}},
-      "resource_type": {{group.resource_type}}
-    }
-    ],
-  "description": {{group.description}},
-  "display_name": {{group.display_name}}
-},
-{%- endfor %}
+       "display_name": {{group.display_name}},
+       "description": {{group.description}},
+       "resource_type": {{group.resource_type}},  
+          {% if group.expression.resource_type -%}
+          "expression": [
+          {
+          "resource_type": {{group.expression.resource_type}},
+            {% if group.expression.resource_type== '"Condition"' -%}
+            "member_type":  '"VirtualMachine"',
+            "key": {{group.expression.key}},
+            "operator": {{group.expression.operator}},
+            "value": {{group.expression.value}},
+           {% elif group.expression.resource_type== '"ExternalIDExpression"' -%}
+            "member_type":  "VirtualMachine",
+            "external_ids": [
+            {% for id in group.expression.external_ids -%}
+            {{id}},
+            {% endfor -%}
+            ]
+            {%  elif group.expression.resource_type== '"PathExpression"' -%}
+            "paths": [
+            {% for path in group.expression.paths   -%}
+            {{path }},
+            {% endfor -%}
+            ],
+            {% endif -%}
+           }
+          ],
+        {% endif -%}
+        {% if group.grp_tags.grp_scope or group.grp_tags.grp_tag %}
+          "tags": [
+              {
+             "scope": {{group.grp_tags.grp_scope }},
+             "tag": {{group.grp_tags.grp_tag}}
+              }
+           ],
+        {% endif -%}
+ },
+ {% endfor -%}
 ]

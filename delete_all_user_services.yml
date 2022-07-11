@@ -1,5 +1,5 @@
 ---
-- name: Delete All User-crteated Services
+- name: Delete All User-created Services
   hosts: nsx-t
   connection: local
   gather_facts: false

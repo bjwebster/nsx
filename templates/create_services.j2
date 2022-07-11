@@ -4,6 +4,7 @@
   "description": {{service.description}},
   "display_name": {{service.display_name}},
   "service_entries": [
+    {% if service.service_entries %}
     {% for entry in service.service_entries  %}
        {
         "resource_type": {{entry.resource_type}},
@@ -15,8 +16,18 @@
           ],
         "l4_protocol": {{entry.l4_protocol}}
         },
-    {%endfor%} 
+    {% endfor %} 
+    {% endif %}
+    {% if service.nested_service_entries -%}
+    {% for entry in service.nested_service_entries  -%}
+       {
+        "resource_type": {{entry.resource_type}},
+        "display_name": {{entry.display_name}},
+        "nested_service_path": {{entry.nested_service_path}}
+        },
+    {% endfor -%} 
+    {% endif -%}
   ]
 },
-{%endfor%}
+{% endfor %}
 ]

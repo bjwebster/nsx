@@ -1,0 +1,23 @@
+[
+       {
+              "display_name": "Test_Group_Extended",
+              "description": "Brian test group creation via IAC",
+              
+              "expression": [
+              {
+                 "resource_type": "PathExpression",
+                 "paths": [
+                  "/infra/domains/default/groups/Applications",
+                 ]
+       }
+           ],
+                 
+         "tags": [
+                {
+                    "scope": "Earth",
+                    "tag": "Planets"
+                  }
+       
+               ]
+       }
+]

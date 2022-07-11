@@ -1,3 +1,119 @@
+---
+nsxtags:
+- nsxtag:
+   nxsscope: '"ScopeA"'
+   nsxtag:  '"TagA"'
+   apply_to: 
+    resource_type: '"VirtualMachine"'
+    resource_ids:
+    - 503743c9-e3e8-4872-3a28-f0316166b596
+    - 5037db93-80de-95fa-166b-9b361b45ca53
+   remove_from: 
+    resource_type: '"VirtualMachine"'
+    resource_ids:
+    - 503743c9-e3e8-4872-3a28-f0316166b596
+    - 5037db93-80de-95fa-166b-9b361b45ca53
+- nsxtag:
+   nxsscope: '"ScopeB"'
+   nsxtag:  '"TagB"'
+   apply_to: 
+    resource_type: '"VirtualMachine"'
+    resource_ids:
+    - 503743c9-e3e8-4872-3a28-f0316166b596
+    - 5037db93-80de-95fa-166b-9b361b45ca53
+   remove_from: 
+    resource_type: '"VirtualMachine"'
+    resource_ids:
+    - 503743c9-e3e8-4872-3a28-f0316166b596
+    - 5037db93-80de-95fa-166b-9b361b45ca53
+
+NSXGroups:
+- display_name: '"Test_Group_Tags_no_Expr"'
+  resource_type: '"Group"'
+  value: '"Web"'
+  key: '"Name"'
+  operator: '"CONTAINS"'
+  description: '"Brian test group creation via IAC"'
+  expression:
+    resource_type: 
+    paths: 
+    key: 
+    operator: 
+    value: 
+    external_ids:
+  grp_tags:
+   grp_scope: '"Earth"'
+   grp_tag: '"Planets"' 
+- display_name: '"Test_Group_Path"'
+  resource_type: '"Group"'
+  value: '"Web"'
+  key: '"Name"'
+  operator: '"CONTAINS"'
+  description: '"Brian test group creation via IAC"'
+  expression:
+    resource_type: '"PathExpression"'
+    paths: 
+    - '"/infra/domains/default/groups/Applications"'
+    key:
+    operator:
+    value:
+    external_ids:
+  grp_tags:
+   grp_scope:
+   grp_tag:
+- display_name: '"Test_Group_VMs"'
+  resource_type: '"Group"'
+  value:
+  key:
+  operator:
+  description: '"Brian test group creation via IAC"'
+  expression:
+    resource_type: '"ExternalIDExpression"'
+    paths:
+    key:
+    operator:
+    value:
+    external_ids:
+    - '"5037f33d-cc7e-b614-20c8-91d7b65558fa"'
+    - '"5037b75e-00e2-c66d-dfb2-ab0658251558"'
+    - '"5037ae0b-7ab7-37bc-671f-2409e14e9d93"'
+- display_name: '"Test_Group_Nested_Conjunction"'
+  resource_type: '"Group"'
+  value:
+  key:
+  operator:
+  description: '"Brian test group creation via IAC"'
+  expression:
+    resource_type: '"NestedExpression"'
+    paths:
+    key:
+    operator:
+    value:
+    external_ids:
+  nested_expressions:
+  - resource_type: '"Condition"'
+    key: '"ComputerName"'
+    member_type: '"VirtualMachine"'
+    operator: '"CONTAINS"'
+    conjunction_operator:
+    value: '"web"'
+  - resource_type: '"ConjunctionOperator"'
+    key:
+    member_type:
+    operator:
+    conjunction_operator: '"AND"'
+    value:
+  - resource_type: '"Condition"'
+    key: '"ComputerName"'
+    member_type: '"VirtualMachine"'
+    operator: '"CONTAINS"'
+    conjunction_operator: '"AND"'
+    value: '"app"'
+  grp_tags:
+   grp_scope:
+   grp_tag:
+
+    
 services:
 - description: '"Alternate ports for HTTPS"'
   display_name: '"Brian-Alt-HTTPS"'
@@ -20,6 +136,7 @@ services:
     - '"4443"'
     source_ports:
     l4_protocol: '"TCP"'
+  nested_service_entries:
 - description: '"Alternate ports for HTTP"'
   display_name: '"Brian-Alt-HTTP"'
   service_entries:
@@ -30,14 +147,28 @@ services:
     - '"8081",'
     source_ports:
     l4_protocol: '"TCP"' 
-- description: '"Randon Ports for testing"'
+  nested_service_entries:
+- description: '"Random Ports for testing"'
   display_name: '"Brian-Random"'
   service_entries:
   - resource_type: '"L4PortSetServiceEntry"'
-    display_name: '"randon-porst"'
+    display_name: '"random-ports"'
     destination_ports:
     - '"9099",'
     - '"6066",'
     source_ports:
     l4_protocol: '"UDP"' 
-
+  nested_service_entries:
+- description: '"Nested Service Testing"'
+  display_name: '"BrianNestedService"'
+  service_entries:
+  nested_service_entries:
+  - resource_type: '"NestedServiceServiceEntry"'
+    display_name: '"Brian-Alt-HTTPS"'
+    nested_service_path: '"/infra/services/Brian-Alt-HTTPS"'
+  - resource_type: '"NestedServiceServiceEntry"'
+    display_name: '"Brian-Alt-HTTP"'
+    nested_service_path: '"/infra/services/Brian-Alt-HTTP"'
+  - resource_type: '"NestedServiceServiceEntry"'
+    display_name: '"Brian-Random"'
+    nested_service_path: '"/infra/services/Brian-Random"'

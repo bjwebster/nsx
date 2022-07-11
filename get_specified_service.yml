@@ -1,25 +1,22 @@
 ---
-- name: Get Services Entries
+- name: Get specified Service
   hosts: nsx-t
   connection: local
   gather_facts: false
-
-  vars:
-    service_id: BrianServices
   
   tasks:
 
   - name: Get user-created services from NSX
     uri:
-      url: https://10.200.12.52/policy/api/v1/infra/services/{{service_id}}/service-entries
+      url: https://10.200.12.52/policy/api/v1/infra/services/Brian-Alt-HTTPS
       user: "{{ username }}"
       password: "{{ password}}"
       method: GET
       force_basic_auth: yes
       validate_certs: false
       status_code: 200
-    register: response
+    register: specified_service
     
   - name: display services
     debug:
-      msg: "{{response}}"
+      msg: "{{specified_service}}"

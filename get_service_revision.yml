@@ -1,5 +1,5 @@
 ---
-- name: Get service revision values
+- name: Get service revision values for non-default services
   hosts: nsx-t
   connection: local
   gather_facts: false
@@ -24,6 +24,6 @@
     set_fact:
       service_rev_dict: "{{ lookup('template', 'service_revision_dict.j2')}}"
 
-  - name: print services
+  - name: print service revision dictionary
     debug:
       msg: "{{ service_rev_dict }}"
