@@ -28,28 +28,23 @@ nsxtags:
     - 5037db93-80de-95fa-166b-9b361b45ca53
 
 NSXGroups:
-- display_name: '"Test_Group_Tags_no_Expr"'
+- display_name: '"Test_Group_Basic"'
   resource_type: '"Group"'
   value: '"Web"'
   key: '"Name"'
   operator: '"CONTAINS"'
-  description: '"Brian test group creation via IAC"'
-  expression:
-    resource_type: 
-    paths: 
-    key: 
-    operator: 
-    value: 
-    external_ids:
+  description: '"IAC Test Group. Basic group with no expression, only tags."'
   grp_tags:
-   grp_scope: '"Earth"'
-   grp_tag: '"Planets"' 
+  - grp_tag: '"Milky Way"'
+    grp_scope: '"Galaxies"'
+  - grp_tag: '"Earth"'
+    grp_scope: '"Planets"' 
 - display_name: '"Test_Group_Path"'
   resource_type: '"Group"'
   value: '"Web"'
   key: '"Name"'
   operator: '"CONTAINS"'
-  description: '"Brian test group creation via IAC"'
+  description: '"IAC Test Group. Group consisting of other groups. "'
   expression:
     resource_type: '"PathExpression"'
     paths: 
@@ -58,15 +53,12 @@ NSXGroups:
     operator:
     value:
     external_ids:
-  grp_tags:
-   grp_scope:
-   grp_tag:
 - display_name: '"Test_Group_VMs"'
   resource_type: '"Group"'
   value:
   key:
   operator:
-  description: '"Brian test group creation via IAC"'
+  description: '"IAC Test Group. Group created with a list of VM IDs."'
   expression:
     resource_type: '"ExternalIDExpression"'
     paths:
@@ -82,7 +74,7 @@ NSXGroups:
   value:
   key:
   operator:
-  description: '"Brian test group creation via IAC"'
+  description: '"IAC Test Group. Group using criteria for membership definition"'
   expression:
     resource_type: '"NestedExpression"'
     paths:
@@ -109,9 +101,21 @@ NSXGroups:
     operator: '"CONTAINS"'
     conjunction_operator: '"AND"'
     value: '"app"'
-  grp_tags:
-   grp_scope:
-   grp_tag:
+- display_name: '"Test_Group_IPs"'
+  resource_type: '"Group"'
+  value:
+  key:
+  operator:
+  description: '"IAC Test Group. Group created with a list of IPs."'
+  expression:
+    resource_type: '"IPAddressExpression"'
+    paths:
+    key:
+    operator:
+    value:
+    ip_addresses:
+    - '"10.10.10.0/25"'
+    - '"172.16.0.0/12"'
 
     
 services:

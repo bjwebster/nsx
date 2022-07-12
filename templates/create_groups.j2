@@ -1,43 +1,70 @@
 [
 {% for group in NSXGroups -%}
 {
-       "display_name": {{group.display_name}},
-       "description": {{group.description}},
-       "resource_type": {{group.resource_type}},  
-          {% if group.expression.resource_type -%}
-          "expression": [
-          {
+  "display_name": {{group.display_name}},
+  "description": {{group.description}},
+  "resource_type": {{group.resource_type}},
+    {% if group.expression is defined and group.expression.resource_type -%}
+      "expression": [
+        {
           "resource_type": {{group.expression.resource_type}},
             {% if group.expression.resource_type== '"Condition"' -%}
-            "member_type":  '"VirtualMachine"',
-            "key": {{group.expression.key}},
-            "operator": {{group.expression.operator}},
-            "value": {{group.expression.value}},
-           {% elif group.expression.resource_type== '"ExternalIDExpression"' -%}
-            "member_type":  "VirtualMachine",
-            "external_ids": [
-            {% for id in group.expression.external_ids -%}
-            {{id}},
-            {% endfor -%}
-            ]
+              "member_type":  '"VirtualMachine"',
+              "key": {{group.expression.key}},
+              "operator": {{group.expression.operator}},
+              "value": {{group.expression.value}},
+            {% elif group.expression.resource_type== '"ExternalIDExpression"' -%}
+              "member_type":  "VirtualMachine",
+              "external_ids": [
+              {% for id in group.expression.external_ids -%}
+                {{id}},
+              {% endfor -%}
+              ],
             {%  elif group.expression.resource_type== '"PathExpression"' -%}
-            "paths": [
-            {% for path in group.expression.paths   -%}
-            {{path }},
-            {% endfor -%}
+              "paths": [
+              {% for path in group.expression.paths   -%}
+                {{path }},
+              {% endfor -%}
+              ],
+            {%  elif group.expression.resource_type== '"IPAddressExpression"' -%}
+              "ip_addresses": [
+              {% for address in group.expression.ip_addresses   -%}
+                {{address }},
+              {% endfor -%}
+              ],
+            {%  elif group.expression.resource_type== '"NestedExpression"' -%}
+              {%  if group.nested_expressions is defined -%}
+                "expressions": [
+                {% for entry in group.nested_expressions  -%}
+                {
+                  {% if entry.resource_type == '"Condition"' -%}
+                    "key": {{entry.key}},
+                    "member_type": {{entry.member_type}},
+                    "operator": {{entry.operator}},
+                    "value":  {{entry.value}},
+                    "resource_type": {{entry.resource_type}},
+                  {% elif entry.resource_type == '"ConjunctionOperator"' -%}
+                    "conjunction_operator":  {{entry.conjunction_operator}},
+                    "resource_type":   {{entry.resource_type}},
+                  {% endif -%}
+                  },
+                {% endfor -%}
+              ],
+              {% endif -%}
+            {% endif -%} 
+        }
+      ],
+    {% endif -%}
+    {% if group.grp_tags is defined %}
+    "tags": [
+      {% for each_tag in group.grp_tags %}
+        {
+          "scope":{{ each_tag.grp_scope}},
+          "tag": {{ each_tag.grp_tag}}
+        },
+      {% endfor %}
             ],
-            {% endif -%}
-           }
-          ],
-        {% endif -%}
-        {% if group.grp_tags.grp_scope or group.grp_tags.grp_tag %}
-          "tags": [
-              {
-             "scope": {{group.grp_tags.grp_scope }},
-             "tag": {{group.grp_tags.grp_tag}}
-              }
-           ],
-        {% endif -%}
- },
+   {%endif%}
+},
  {% endfor -%}
 ]
